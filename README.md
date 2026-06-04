@@ -80,26 +80,10 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Configure Environment Variables
-Copy `.env.example` to create a `.env` file in the root folder:
-```bash
-cp .env.example .env
-```
-Fill in the custom fields in `.env`:
-```env
-FLASK_CONFIG=development
-SECRET_KEY=your-custom-secure-key
-PORT=5000
-WHATSAPP_NUMBER=+91XXXXXXXXXX
-CONTACT_PHONE=+91XXXXXXXXXX
-CONTACT_EMAIL=your_email@gmail.com
-CONTACT_ADDRESS=Your Store Address, City, Country
-```
-
-### 5. Initialize Database and Seed Data
+### 4. Initialize Database and Seed Data
 When you run the app for the first time, Flask will automatically create the SQLite database in the `/instance` folder and seed it with signature acoustics (Aeon Headphones, Horizon Earbuds, Monolith Soundbar, Orbit Speaker).
 
-### 6. Run the Application
+### 5. Run the Application
 ```bash
 # Start the local development server
 python run.py
