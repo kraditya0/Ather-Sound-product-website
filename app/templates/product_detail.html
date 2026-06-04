@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }} | {{ brand_name }}{% endblock %}
+
+{% block meta_description %}{{ product.short_description }}{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": "{{ product.name }}",
+  "image": [
+    {% for img in product.images %}
+      "{{ url_for('static', filename=img.replace('/static/', ''), _external=True) }}"{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ],
+  "description": "{{ product.short_description }}",
+  "sku": "{{ product.slug }}",
+  "brand": {
+    "@type": "Brand",
+    "name": "{{ brand_name }}"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": "{{ request.url }}",
+    "priceCurrency": "USD",
+    "price": "{{ product.price }}",
+    "availability": "https://schema.org/InStock",
+    "itemCondition": "https://schema.org/NewCondition"
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Main Product Area -->
+<section class="pt-32 pb-24 bg-brand-light dark:bg-brand-dark transition-colors duration-300" data-product-name="{{ product.name }}">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+        
+        <!-- Breadcrumbs -->
+        <nav class="text-xs uppercase tracking-widest text-neutral-400 mb-8 flex gap-2">
+            <a href="{{ url_for('main.index') }}" class="hover:text-brand-gold transition-colors">Home</a>
+            <span>/</span>
+            <a href="{{ url_for('products.index') }}" class="hover:text-brand-gold transition-colors">Collection</a>
+            <span>/</span>
+            <span class="text-brand-gold">{{ product.name }}</span>
+        </nav>
+
+        <!-- Product Core Details (Split Grid) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+            
+            <!-- Left Side: Gallery Media -->
+            <div class="lg:col-span-7 flex flex-col gap-6">
+                <!-- Primary Viewer -->
+                <div class="relative aspect-square w-full rounded-2xl overflow-hidden bg-white dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800/80 shadow-sm flex items-center justify-center group select-none">
+                    <!-- Main image (zoom-enabled) -->
+                    <div id="zoom-container" class="w-full h-full cursor-zoom-in overflow-hidden relative">
+                        <img id="main-product-image" src="{{ product.primary_image }}" alt="{{ product.name }}" class="w-full h-full object-cover transition-transform duration-200 origin-center">
+                    </div>
+
+                    <!-- Video Overlay Badge -->
+                    {% if product.video_url %}
+                        <button id="open-video-btn" data-video-url="{{ product.video_url }}" class="absolute bottom-6 right-6 w-14 h-14 bg-white/90 dark:bg-neutral-900/90 hover:bg-brand-gold hover:text-white border border-neutral-100 dark:border-neutral-800 text-neutral-850 dark:text-neutral-50 rounded-full flex items-center justify-center text-lg shadow-lg hover:scale-105 transition-all duration-300" title="Watch Video">
+                            <i class="fa-solid fa-play ml-0.5 animate-pulse"></i>
+                        </button>
+                    {% endif %}
+                </div>
+
+                <!-- Thumbnails grid -->
+                <div class="flex gap-4 overflow-x-auto pb-2 scrollbar-thin">
+                    {% for img in product.images %}
+                        <button class="thumbnail-btn shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 bg-white dark:bg-neutral-900 flex items-center justify-center transition-all duration-300 {% if loop.first %}border-brand-gold{% else %}border-transparent hover:border-neutral-300 dark:hover:border-neutral-700{% endif %}"
+                                data-image-url="{{ img }}">
+                            <img src="{{ img }}" alt="{{ product.name }} thumbnail {{ loop.index }}" class="w-full h-full object-cover">
+                        </button>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Right Side: Details & Inquiries -->
+            <div class="lg:col-span-5 flex flex-col gap-8">
+                <!-- Header Info -->
+                <div class="flex flex-col gap-3">
+                    <span class="text-xs uppercase tracking-widest text-brand-gold font-bold self-start px-3 py-1 bg-brand-gold/10 rounded-full">
+                        {{ product.category.name if product.category else 'Acoustics' }}
+                    </span>
+                    <h1 class="text-3xl sm:text-4xl font-light tracking-tight text-neutral-900 dark:text-neutral-50">
+                        {{ product.name }}
+                    </h1>
+                    <span class="text-2xl font-bold text-brand-gold mt-1">
+                        {{ product.price | currency }}
+                    </span>
+                </div>
+
+                <div class="border-t border-neutral-200 dark:border-neutral-800/80 my-1"></div>
+
+                <!-- Short description -->
+                <p class="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed font-light">
+                    {{ product.long_description or product.short_description }}
+                </p>
+
+                <!-- Core Call to Actions -->
+                <div class="flex flex-col gap-4">
+                    {% set clean_whatsapp = whatsapp_number | replace('+', '') | replace(' ', '') | replace('-', '') | replace('(', '') | replace(')', '') %}
+                    {% set product_msg = whatsapp_template | format(product_name=product.name) | urlencode %}
+                    
+                    <!-- Direct WhatsApp Inquiry -->
+                    <a href="https://wa.me/{{ clean_whatsapp }}?text={{ product_msg }}" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="w-full py-4 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full font-bold text-xs uppercase tracking-widest text-center flex items-center justify-center gap-2.5 shadow-xl hover:scale-[1.02] transform transition-all duration-300">
+                        <i class="fa-brands fa-whatsapp text-xl"></i> Instant WhatsApp Inquiry
+                    </a>
+
+                    <!-- Trigger Concierge Inquiry Modal/Accordion -->
+                    <button id="concierge-inquiry-trigger" class="w-full py-4 border border-neutral-300 dark:border-neutral-700 hover:border-neutral-800 dark:hover:border-neutral-200 text-neutral-800 dark:text-neutral-200 rounded-full font-bold text-xs uppercase tracking-widest text-center transition-all duration-300">
+                        Submit Direct Inquiry Form
+                    </button>
+                </div>
+
+                <!-- Lead Generation Form (Hidden initially, slides open) -->
+                <div id="inquiry-form-container" class="hidden overflow-hidden bg-neutral-50 dark:bg-neutral-900/40 border border-neutral-100 dark:border-neutral-800/80 rounded-2xl p-6 transition-all duration-500 shadow-inner">
+                    <h3 class="text-sm font-semibold tracking-wider uppercase text-neutral-800 dark:text-neutral-200 mb-4">Concierge Inquiry</h3>
+                    <form action="{{ url_for('main.contact') }}" method="POST" class="flex flex-col gap-4">
+                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                        <input type="hidden" name="subject" value="Inquiry about {{ product.name }}">
+                        
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <div class="flex-1">
+                                <label class="block text-[10px] font-bold uppercase tracking-wider text-neutral-400 mb-1" for="inq-name">Your Name *</label>
+                                <input type="text" id="inq-name" name="name" required class="w-full bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-xl py-2 px-3 text-sm focus:outline-none focus:border-brand-gold">
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-[10px] font-bold uppercase tracking-wider text-neutral-400 mb-1" for="inq-phone">Phone Number *</label>
+                                <input type="tel" id="inq-phone" name="phone" required class="w-full bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-xl py-2 px-3 text-sm focus:outline-none focus:border-brand-gold">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase tracking-wider text-neutral-400 mb-1" for="inq-email">Email Address *</label>
+                            <input type="email" id="inq-email" name="email" required class="w-full bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-xl py-2 px-3 text-sm focus:outline-none focus:border-brand-gold">
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase tracking-wider text-neutral-400 mb-1" for="inq-msg">Inquiry Details *</label>
+                            <textarea id="inq-msg" name="message" rows="3" required class="w-full bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-xl py-2 px-3 text-sm focus:outline-none focus:border-brand-gold">Hello, I would like to check availability and details regarding the {{ product.name }}. Please contact me.</textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-3 bg-neutral-900 dark:bg-neutral-800 hover:bg-brand-gold dark:hover:bg-brand-gold text-white font-bold text-xs rounded-xl uppercase tracking-widest transition-colors duration-300">
+                            Submit Inquiry
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Product Specifications Accordion -->
+                <div class="flex flex-col border border-neutral-100 dark:border-neutral-800/80 rounded-2xl bg-white dark:bg-neutral-900 shadow-sm overflow-hidden mt-2">
+                    {% for tab_name, tab_icon in [('Specifications', 'fa-sliders'), ('Materials & Design', 'fa-palette'), ('In the Box', 'fa-box')] %}
+                        <div class="border-b border-neutral-100 dark:border-neutral-800/80 last:border-b-0">
+                            <button class="accordion-header w-full py-4 px-6 flex items-center justify-between font-semibold text-sm tracking-wide text-neutral-800 dark:text-neutral-200 focus:outline-none" data-target="tab-{{ loop.index }}">
+                                <span class="flex items-center gap-2"><i class="fa-solid {{ tab_icon }} text-brand-gold"></i> {{ tab_name }}</span>
+                                <i class="fa-solid fa-chevron-down transition-transform duration-300"></i>
+                            </button>
+                            <div id="tab-{{ loop.index }}" class="accordion-content max-h-0 overflow-hidden transition-all duration-300 ease-out bg-neutral-50/50 dark:bg-neutral-950/20">
+                                <div class="p-6 text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-light">
+                                    {% if loop.index == 1 %}
+                                        <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            {% for key, val in product.specs.items() %}
+                                                <div class="flex flex-col border-b border-neutral-100 dark:border-neutral-800 pb-2">
+                                                    <dt class="text-[10px] uppercase tracking-wider font-bold text-neutral-400">{{ key }}</dt>
+                                                    <dd class="text-sm font-medium mt-0.5 text-neutral-800 dark:text-neutral-200">{{ val }}</dd>
+                                                </div>
+                                            {% endfor %}
+                                        </dl>
+                                    {% elif loop.index == 2 %}
+                                        <p>
+                                            Every model in the AETHER signature line is crafted from sustainably sourced architectural materials. Hand-finished materials provide structural resonance control, isolating acoustic drivers from background reflections to secure micro-fidelity detailing.
+                                        </p>
+                                    {% else %}
+                                        <ul class="list-disc pl-5 flex flex-col gap-1.5">
+                                            <li>{{ product.name }}</li>
+                                            <li>Premium micro-fiber storage pouch</li>
+                                            <li>Braided USB-C to USB-C cable (1.5m)</li>
+                                            <li>USB-C to 3.5mm acoustic AUX line</li>
+                                            <li>Serial certificate of luxury authentication</li>
+                                            <li>Luxury designer presentation box</li>
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Related Products Segment -->
+        {% if related_products %}
+            <div class="border-t border-neutral-200 dark:border-neutral-800/80 my-24"></div>
+            
+            <div class="flex flex-col gap-12">
+                <div class="text-center md:text-left flex flex-col gap-2">
+                    <span class="text-xs uppercase tracking-widest text-brand-gold font-bold">Alternative Auditory Art</span>
+                    <h2 class="text-2xl md:text-3xl font-light tracking-tight text-neutral-900 dark:text-neutral-50">
+                        Related <span class="font-serif italic font-normal text-brand-gold">AETHER Creations</span>
+                    </h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {% for rel_prod in related_products %}
+                        {% with product = rel_prod %}
+                            {% include 'components/_product_card.html' %}
+                        {% endwith %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+</section>
+
+<!-- Video Popup Modal Player -->
+{% if product.video_url %}
+    <div id="video-modal" class="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+        <button id="close-video-modal" class="absolute top-6 right-6 text-white text-3xl hover:text-brand-gold transition-colors focus:outline-none" aria-label="Close Video">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="w-full max-w-4xl aspect-video bg-neutral-950 rounded-2xl overflow-hidden shadow-2xl relative">
+            <video id="modal-video-player" class="w-full h-full" controls playsinline>
+                <source src="{{ product.video_url }}" type="video/mp4">
+            </video>
+        </div>
+    </div>
+{% endif %}
+
+<!-- Lightbox Zoom Overlay -->
+<div id="lightbox" class="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300 select-none">
+    <button id="close-lightbox" class="absolute top-6 right-6 text-white text-3xl hover:text-brand-gold transition-colors focus:outline-none" aria-label="Close Gallery">
+        <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div class="w-full max-w-5xl h-[80vh] flex items-center justify-center relative">
+        <img id="lightbox-image" src="" alt="Lightbox image" class="max-w-full max-h-full object-contain transform transition-transform duration-350 cursor-grab active:cursor-grabbing">
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/product.js') }}"></script>
+{% endblock %}

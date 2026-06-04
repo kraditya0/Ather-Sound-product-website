@@ -1,0 +1,37 @@
+{% set clean_whatsapp = whatsapp_number | replace('+', '') | replace(' ', '') | replace('-', '') | replace('(', '') | replace(')', '') %}
+{% set default_encoded_msg = whatsapp_template | format(product_name="AETHER products") | urlencode %}
+
+<div class="fixed bottom-6 left-6 z-40" id="whatsapp-container">
+    <!-- Pulse Ring Animation -->
+    <span class="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-20 animate-pulse-slow scale-110 pointer-events-none"></span>
+    
+    <!-- Floating Button Link -->
+    <a href="https://wa.me/{{ clean_whatsapp }}?text={{ default_encoded_msg }}" 
+       target="_blank" 
+       rel="noopener noreferrer" 
+       id="floating-whatsapp-btn"
+       class="relative w-14 h-14 bg-emerald-500 hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2"
+       title="Inquire on WhatsApp"
+       aria-label="Contact us on WhatsApp">
+        <i class="fa-brands fa-whatsapp text-3xl"></i>
+    </a>
+</div>
+
+<script>
+    // Context-aware message update based on the product page
+    document.addEventListener("DOMContentLoaded", function() {
+        const floatingBtn = document.getElementById("floating-whatsapp-btn");
+        if (!floatingBtn) return;
+        
+        // Check if there is a specific product on the page (e.g. meta tags or data attribute)
+        const productDetailElement = document.querySelector("[data-product-name]");
+        if (productDetailElement) {
+            const productName = productDetailElement.getAttribute("data-product-name");
+            const whatsappNumber = "{{ clean_whatsapp }}";
+            const template = "Hello, I am interested in the {product_name}. Please provide more information.";
+            const message = template.replace("{product_name}", productName);
+            
+            floatingBtn.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+        }
+    });
+</script>

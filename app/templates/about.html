@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+
+{% block title %}Our Story | {{ brand_name }} Systems{% endblock %}
+
+{% block meta_description %}The heritage and design philosophy of AETHER. Discover how we balance material integrity, spatial acoustics, and visual art.{% endblock %}
+
+{% block content %}
+<!-- Page Intro Header -->
+<section class="pt-32 pb-12 bg-neutral-50 dark:bg-neutral-900/20 border-b border-neutral-100 dark:border-neutral-900/50 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <nav class="text-xs uppercase tracking-widest text-neutral-400 mb-4 flex gap-2">
+            <a href="{{ url_for('main.index') }}" class="hover:text-brand-gold transition-colors">Home</a>
+            <span>/</span>
+            <span class="text-brand-gold">Our Story</span>
+        </nav>
+        <h1 class="text-3xl md:text-5xl font-light tracking-tight text-neutral-900 dark:text-neutral-50">
+            Carving the <span class="font-serif italic font-normal text-brand-gold">AETHER Heritage</span>
+        </h1>
+        <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-2 max-w-xl font-light leading-relaxed">
+            Discover the design philosophy, team, and acoustic breakthroughs that drive our vision of sculptured high-fidelity.
+        </p>
+    </div>
+</section>
+
+<!-- Mission & Philosophy Section -->
+<section class="py-24 bg-brand-light dark:bg-brand-dark transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="flex flex-col gap-6 about-intro opacity-0 translate-y-8">
+                <span class="text-xs uppercase tracking-widest text-brand-gold font-bold">The Core Concept</span>
+                <h2 class="text-3xl md:text-4xl font-light tracking-tight text-neutral-900 dark:text-neutral-50">
+                    Acoustics shouldn't be hidden. <br>They should be <span class="font-serif italic font-normal">admired.</span>
+                </h2>
+                <p class="text-sm text-neutral-500 dark:text-neutral-400 font-light leading-relaxed">
+                    AETHER was founded in New York by a group of acoustic engineers and industrial designers who grew tired of boxy black speakers. We believed audio hardware should complement contemporary architecture rather than clutter it. 
+                </p>
+                <p class="text-sm text-neutral-500 dark:text-neutral-400 font-light leading-relaxed">
+                    By carving driver housings out of natural materials like Italian travertine marble, hand-cast ceramic, and solid brass, we discovered something extraordinary: the density of these materials creates the ideal resonance chamber. The result is crystal-clear acoustic isolation combined with striking visual design.
+                </p>
+            </div>
+            
+            <div class="relative aspect-video rounded-3xl overflow-hidden shadow-2xl border border-neutral-100 dark:border-neutral-800/80 group about-media opacity-0 translate-y-8">
+                <img src="/static/images/products/monolith-detail-2.webp" alt="Travertine soundbar closeup" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                <div class="absolute inset-0 bg-neutral-950/20"></div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Values Section -->
+<section class="py-20 bg-neutral-50 dark:bg-neutral-900/40 border-t border-b border-neutral-100 dark:border-neutral-900 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div class="flex flex-col gap-3">
+                <h3 class="text-lg font-bold text-neutral-900 dark:text-neutral-100 border-b border-brand-gold/30 pb-3 flex items-center gap-2">
+                    <span class="text-brand-gold">01</span> Material Integrity
+                </h3>
+                <p class="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed font-light">
+                    We use real materials. No plastic imitation wraps. If it looks like marble, it is carved from solid stone. If it looks like brass, it is solid hand-finished metal.
+                </p>
+            </div>
+            <div class="flex flex-col gap-3">
+                <h3 class="text-lg font-bold text-neutral-900 dark:text-neutral-100 border-b border-brand-gold/30 pb-3 flex items-center gap-2">
+                    <span class="text-brand-gold">02</span> Auditory Clarity
+                </h3>
+                <p class="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed font-light">
+                    Our laboratory custom-tunes every speaker element and crossover circuit. Beryllium transducers yield lightning-fast transient audio response.
+                </p>
+            </div>
+            <div class="flex flex-col gap-3">
+                <h3 class="text-lg font-bold text-neutral-900 dark:text-neutral-100 border-b border-brand-gold/30 pb-3 flex items-center gap-2">
+                    <span class="text-brand-gold">03</span> Architectural Fit
+                </h3>
+                <p class="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed font-light">
+                    Our products feature clean, minimalist silhouettes, hidden cables, and low-profile touch controls designed to match premium interior designs.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Heritage Timeline -->
+<section class="py-24 bg-brand-light dark:bg-brand-dark transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <div class="text-center max-w-xl mx-auto mb-16">
+            <span class="text-xs uppercase tracking-widest text-brand-gold font-bold">The Journey</span>
+            <h2 class="text-2xl md:text-3xl font-light text-neutral-900 dark:text-neutral-50 mt-2">
+                A Chronology of <span class="font-serif italic font-normal text-brand-gold">Sonic Breakthroughs</span>
+            </h2>
+        </div>
+
+        <div class="relative border-l border-neutral-200 dark:border-neutral-850/80 ml-4 md:ml-0 md:left-1/2 md:border-l-2 md:-translate-x-1/2 flex flex-col gap-12 py-4">
+            
+            <!-- Timeline Item 1 -->
+            <div class="relative md:w-1/2 md:pr-12 md:text-right md:self-start pl-8 md:pl-0 opacity-0 translate-y-8 timeline-item">
+                <span class="absolute top-0 right-0 translate-x-1/2 w-4 h-4 rounded-full bg-brand-gold border-4 border-brand-light dark:border-brand-dark z-10 md:block hidden"></span>
+                <span class="absolute top-0 left-0 -translate-x-1/2 w-4 h-4 rounded-full bg-brand-gold border-4 border-brand-light dark:border-brand-dark z-10 md:hidden block"></span>
+                <span class="text-sm font-bold text-brand-gold">2021</span>
+                <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mt-1">Foundation & Lab Launch</h3>
+                <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-2 font-light leading-relaxed">
+                    AETHER is founded. Our acoustic lab is set up in NY to study the anti-resonance parameters of natural stone and high-density ceramics.
+                </p>
+            </div>
+
+            <!-- Timeline Item 2 -->
+            <div class="relative md:w-1/2 md:pl-12 md:text-left md:self-end pl-8 opacity-0 translate-y-8 timeline-item">
+                <span class="absolute top-0 left-0 -translate-x-1/2 w-4 h-4 rounded-full bg-brand-gold border-4 border-brand-light dark:border-brand-dark z-10"></span>
+                <span class="text-sm font-bold text-brand-gold">2023</span>
+                <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mt-1">Beryllium Patent Integration</h3>
+                <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-2 font-light leading-relaxed">
+                    Integrated rare-earth Beryllium dome transducers, reducing high-frequency auditory harmonic distortions to near-zero levels.
+                </p>
+            </div>
+
+            <!-- Timeline Item 3 -->
+            <div class="relative md:w-1/2 md:pr-12 md:text-right md:self-start pl-8 md:pl-0 opacity-0 translate-y-8 timeline-item">
+                <span class="absolute top-0 right-0 translate-x-1/2 w-4 h-4 rounded-full bg-brand-gold border-4 border-brand-light dark:border-brand-dark z-10 md:block hidden"></span>
+                <span class="absolute top-0 left-0 -translate-x-1/2 w-4 h-4 rounded-full bg-brand-gold border-4 border-brand-light dark:border-brand-dark z-10 md:hidden block"></span>
+                <span class="text-sm font-bold text-brand-gold">2024</span>
+                <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mt-1">First Signature Release</h3>
+                <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-2 font-light leading-relaxed">
+                    The Aeon Over-Ear headphones launch. Receives design accolades from architectural forums for our sandblasted alloy finish.
+                </p>
+            </div>
+
+            <!-- Timeline Item 4 -->
+            <div class="relative md:w-1/2 md:pl-12 md:text-left md:self-end pl-8 opacity-0 translate-y-8 timeline-item">
+                <span class="absolute top-0 left-0 -translate-x-1/2 w-4 h-4 rounded-full bg-brand-gold border-4 border-brand-light dark:border-brand-dark z-10"></span>
+                <span class="text-sm font-bold text-brand-gold">2026</span>
+                <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mt-1">Architectural Travertine Series</h3>
+                <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-2 font-light leading-relaxed">
+                    Unveiled the Monolith Dolby Atmos speaker, carved from a single block of Italian Travertine marble, bridging home furniture and luxury audio.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Team Placeholders -->
+<section class="py-24 bg-neutral-50 dark:bg-neutral-900/40 border-t border-neutral-100 dark:border-neutral-900 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <div class="text-center max-w-xl mx-auto mb-16">
+            <span class="text-xs uppercase tracking-widest text-brand-gold font-bold">The Minds</span>
+            <h2 class="text-2xl md:text-3xl font-light text-neutral-900 dark:text-neutral-50 mt-2">
+                Acoustic Lab <span class="font-serif italic font-normal text-brand-gold">Directors</span>
+            </h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Member 1 -->
+            <div class="bg-white dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800/80 rounded-2xl p-6 text-center shadow-sm flex flex-col items-center gap-4 group opacity-0 translate-y-8 team-card">
+                <div class="w-24 h-24 rounded-full bg-neutral-100 dark:bg-neutral-850 flex items-center justify-center text-4xl text-neutral-400 border border-neutral-200 dark:border-neutral-800 group-hover:border-brand-gold transition-colors duration-500 overflow-hidden">
+                    <!-- Placeholder avatar using icon -->
+                    <i class="fa-solid fa-user-tie"></i>
+                </div>
+                <div>
+                    <h3 class="text-base font-semibold text-neutral-900 dark:text-neutral-100">David Ross</h3>
+                    <p class="text-xs text-brand-gold uppercase tracking-wider mt-0.5">Co-Founder & Acoustic Lead</p>
+                </div>
+                <p class="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed font-light">
+                    Former acoustic design engineer at top-tier European audio houses. Holds multiple patents on transducer composite layers.
+                </p>
+            </div>
+
+            <!-- Member 2 -->
+            <div class="bg-white dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800/80 rounded-2xl p-6 text-center shadow-sm flex flex-col items-center gap-4 group opacity-0 translate-y-8 team-card">
+                <div class="w-24 h-24 rounded-full bg-neutral-100 dark:bg-neutral-850 flex items-center justify-center text-4xl text-neutral-400 border border-neutral-200 dark:border-neutral-800 group-hover:border-brand-gold transition-colors duration-500 overflow-hidden">
+                    <i class="fa-solid fa-user-ninja"></i>
+                </div>
+                <div>
+                    <h3 class="text-base font-semibold text-neutral-900 dark:text-neutral-100">Elena Rostova</h3>
+                    <p class="text-xs text-brand-gold uppercase tracking-wider mt-0.5">Industrial Designer</p>
+                </div>
+                <p class="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed font-light">
+                    Renowned architectural decorator specializing in Italian stone craftsmanship and luxury spatial setups.
+                </p>
+            </div>
+
+            <!-- Member 3 -->
+            <div class="bg-white dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800/80 rounded-2xl p-6 text-center shadow-sm flex flex-col items-center gap-4 group opacity-0 translate-y-8 team-card">
+                <div class="w-24 h-24 rounded-full bg-neutral-100 dark:bg-neutral-850 flex items-center justify-center text-4xl text-neutral-400 border border-neutral-200 dark:border-neutral-800 group-hover:border-brand-gold transition-colors duration-500 overflow-hidden">
+                    <i class="fa-solid fa-user-astronaut"></i>
+                </div>
+                <div>
+                    <h3 class="text-base font-semibold text-neutral-900 dark:text-neutral-100">Julian Croft</h3>
+                    <p class="text-xs text-brand-gold uppercase tracking-wider mt-0.5">Software & DSP Director</p>
+                </div>
+                <p class="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed font-light">
+                    Directs the algorithms that drive spatial soundstage setups and custom active room calibration DSP codes.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block title %}Gallery | {{ brand_name }} Systems{% endblock %}
+
+{% block meta_description %}A visual display of our design processes and hand-finished products. Witness high-fidelity audio captured in raw materials.{% endblock %}
+
+{% block content %}
+<!-- Page Intro Header -->
+<section class="pt-32 pb-12 bg-neutral-50 dark:bg-neutral-900/20 border-b border-neutral-100 dark:border-neutral-900/50 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <nav class="text-xs uppercase tracking-widest text-neutral-400 mb-4 flex gap-2">
+            <a href="{{ url_for('main.index') }}" class="hover:text-brand-gold transition-colors">Home</a>
+            <span>/</span>
+            <span class="text-brand-gold">Gallery</span>
+        </nav>
+        <h1 class="text-3xl md:text-5xl font-light tracking-tight text-neutral-900 dark:text-neutral-50">
+            Aesthetic <span class="font-serif italic font-normal text-brand-gold">Portfolio</span>
+        </h1>
+        <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-2 max-w-xl font-light leading-relaxed">
+            A photographic showcase of our luxury audio sculptures in residential settings, detail highlights, and craftsmanship close-ups.
+        </p>
+    </div>
+</section>
+
+<!-- Gallery Filter & Grid Core -->
+<section class="py-12 bg-brand-light dark:bg-brand-dark transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+        
+        <!-- Filter Controls -->
+        <div class="flex flex-wrap items-center justify-center gap-3 mb-12" id="gallery-filter-buttons">
+            <button class="gallery-filter-btn px-6 py-2 rounded-full text-xs font-semibold uppercase tracking-wider border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-brand-gold border-brand-gold transition-all duration-300" data-filter="all">
+                All Media
+            </button>
+            {% for cat in categories %}
+                <button class="gallery-filter-btn px-6 py-2 rounded-full text-xs font-semibold uppercase tracking-wider border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 hover:border-brand-gold hover:text-brand-gold transition-all duration-300" data-filter="{{ cat.slug }}">
+                    {{ cat.name }}
+                </button>
+            {% endfor %}
+        </div>
+
+        <!-- Masonry Grid Layout -->
+        <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6" id="gallery-masonry-grid">
+            
+            {% for product in products %}
+                <!-- Primary Image Item -->
+                <div class="gallery-item break-inside-avoid relative overflow-hidden rounded-2xl border border-neutral-100 dark:border-neutral-800/80 bg-white dark:bg-neutral-900 group shadow-sm hover:shadow-xl transition-all duration-500 cursor-zoom-in"
+                     data-category="{{ product.category.slug }}"
+                     data-image-url="{{ product.primary_image }}"
+                     data-title="{{ product.name }} Main Display">
+                    <img src="{{ product.primary_image }}" alt="{{ product.name }}" class="w-full h-auto object-cover transform group-hover:scale-[1.03] transition-transform duration-700 ease-out" loading="lazy">
+                    <div class="absolute inset-0 bg-neutral-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-brand-gold">{{ product.category.name }}</span>
+                        <h3 class="text-base font-semibold text-white mt-1">{{ product.name }}</h3>
+                        <p class="text-xs text-neutral-300 font-light mt-1">Detail View</p>
+                    </div>
+                </div>
+
+                <!-- Loop through gallery images -->
+                {% for img in product.images %}
+                    {% if img != product.primary_image %}
+                        <div class="gallery-item break-inside-avoid relative overflow-hidden rounded-2xl border border-neutral-100 dark:border-neutral-800/80 bg-white dark:bg-neutral-900 group shadow-sm hover:shadow-xl transition-all duration-500 cursor-zoom-in"
+                             data-category="{{ product.category.slug }}"
+                             data-image-url="{{ img }}"
+                             data-title="{{ product.name }} Details #{{ loop.index }}">
+                            <img src="{{ img }}" alt="{{ product.name }} detail" class="w-full h-auto object-cover transform group-hover:scale-[1.03] transition-transform duration-700 ease-out" loading="lazy">
+                            <div class="absolute inset-0 bg-neutral-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-brand-gold">{{ product.category.name }}</span>
+                                <h3 class="text-base font-semibold text-white mt-1">{{ product.name }}</h3>
+                                <p class="text-xs text-neutral-300 font-light mt-1">
+                                    {% if 'lifestyle' in img %}Lifestyle Setting{% else %}Material Craftsmanship{% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                <!-- Video Preview Item (If available) -->
+                {% if product.video_url %}
+                    <div class="gallery-item break-inside-avoid relative overflow-hidden rounded-2xl border border-neutral-100 dark:border-neutral-800/80 bg-neutral-950 group shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer aspect-video"
+                         data-category="{{ product.category.slug }}"
+                         data-video-url="{{ product.video_url }}"
+                         data-title="{{ product.name }} Video Preview">
+                        
+                        <video class="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" muted loop playsinline autoplay>
+                            <source src="{{ product.video_url }}" type="video/mp4">
+                        </video>
+                        
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="w-12 h-12 bg-white/95 text-neutral-900 rounded-full flex items-center justify-center text-sm shadow-xl group-hover:scale-110 transition-transform duration-300">
+                                <i class="fa-solid fa-play ml-0.5"></i>
+                            </span>
+                        </div>
+                        
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-6">
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-brand-gold">{{ product.category.name }}</span>
+                            <h3 class="text-base font-semibold text-white mt-1">{{ product.name }}</h3>
+                            <p class="text-xs text-neutral-300 font-light mt-1">Acoustic Demonstration</p>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+        </div>
+
+    </div>
+</section>
+
+<!-- Lightbox Zoom Overlay -->
+<div id="lightbox" class="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300 select-none">
+    <button id="close-lightbox" class="absolute top-6 right-6 text-white text-3xl hover:text-brand-gold transition-colors focus:outline-none" aria-label="Close Gallery">
+        <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div class="w-full max-w-5xl h-[80vh] flex items-center justify-center relative">
+        <img id="lightbox-image" src="" alt="Lightbox image" class="max-w-full max-h-full object-contain transform transition-transform duration-350 cursor-grab active:cursor-grabbing">
+    </div>
+</div>
+
+<!-- Video Popup Modal Player -->
+<div id="video-modal" class="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+    <button id="close-video-modal" class="absolute top-6 right-6 text-white text-3xl hover:text-brand-gold transition-colors focus:outline-none" aria-label="Close Video">
+        <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div class="w-full max-w-4xl aspect-video bg-neutral-950 rounded-2xl overflow-hidden shadow-2xl relative">
+        <video id="modal-video-player" class="w-full h-full" controls playsinline>
+            <!-- Dynamically populated -->
+        </video>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/gallery.js') }}"></script>
+{% endblock %}

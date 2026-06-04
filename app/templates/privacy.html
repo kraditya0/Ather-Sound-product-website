@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Privacy Policy | {{ brand_name }}{% endblock %}
+
+{% block content %}
+<section class="pt-32 pb-24 bg-brand-light dark:bg-brand-dark transition-colors duration-300">
+    <div class="max-w-4xl mx-auto px-6">
+        <h1 class="text-3xl font-light tracking-tight text-neutral-900 dark:text-neutral-50 mb-8">
+            Privacy <span class="font-serif italic font-normal text-brand-gold">Policy</span>
+        </h1>
+        
+        <div class="prose dark:prose-invert max-w-none text-sm text-neutral-600 dark:text-neutral-405 leading-relaxed font-light flex flex-col gap-6">
+            <p><strong>Effective Date: June 4, 2026</strong></p>
+            
+            <p>At {{ brand_name }}, we hold your privacy in the highest regard. This policy outlines how we collect, store, and manage your personal data when you visit our showcase platform or submit inquiries to our concierge service.</p>
+            
+            <h2 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mt-4 border-b border-neutral-100 dark:border-neutral-800 pb-2">Information We Collect</h2>
+            <p>When you fill out an inquiry form or interact with our WhatsApp widget, we collect information necessary to facilitate custom service, including:</p>
+            <ul class="list-disc pl-5 flex flex-col gap-1.5">
+                <li>Your name and contact identifiers (phone number, email address).</li>
+                <li>Details concerning specific audio models you are interested in.</li>
+                <li>Any custom descriptions of architectural projects or sound specifications.</li>
+            </ul>
+
+            <h2 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mt-4 border-b border-neutral-100 dark:border-neutral-800 pb-2">How We Use Your Data</h2>
+            <p>We process your inquiries solely to answer questions, schedule acoustic listening sessions, and handle private bespoke deliveries. We never sell your database files or contact records to external advertisers.</p>
+            
+            <h2 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mt-4 border-b border-neutral-100 dark:border-neutral-800 pb-2">Third-Party Integrations</h2>
+            <p>Our website utilizes third-party tools to enhance styling (Tailwind CSS), render map assets (Google Maps), and link to mobile communications (WhatsApp). These entities process cookies or network headers in accordance with their respective privacy standards.</p>
+            
+            <h2 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mt-4 border-b border-neutral-100 dark:border-neutral-800 pb-2">Contact Details</h2>
+            <p>If you have any questions regarding privacy settings, please write to our coordinator at <strong>{{ contact_email }}</strong>.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

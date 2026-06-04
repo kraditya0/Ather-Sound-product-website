@@ -1,0 +1,113 @@
+/* Custom variables & utility structures */
+:root {
+    --transition-premium: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Base custom resets */
+html {
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Premium Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(197, 168, 128, 0.3);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(197, 168, 128, 0.6);
+}
+
+/* Custom interactive cursors (desktop) */
+#custom-cursor {
+    transition: width 0.3s var(--transition-premium), 
+                height 0.3s var(--transition-premium), 
+                background-color 0.3s var(--transition-premium), 
+                border-color 0.3s var(--transition-premium),
+                opacity 0.2s ease;
+}
+.cursor-hover #custom-cursor {
+    width: 48px;
+    height: 48px;
+    background-color: rgba(197, 168, 128, 0.05);
+    border-color: rgba(197, 168, 128, 1);
+    transform: translate(-50%, -50%) scale(1.1);
+}
+.cursor-hover #custom-cursor-dot {
+    transform: translate(-50%, -50%) scale(1.8);
+    background-color: #FAF9F6;
+}
+
+/* Header Glassmorphism states */
+.header-glass {
+    background-color: rgba(250, 249, 246, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-color: rgba(0, 0, 0, 0.04);
+}
+.dark .header-glass {
+    background-color: rgba(8, 8, 9, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-color: rgba(255, 255, 255, 0.04);
+}
+
+/* Fluid styling for custom cards */
+.product-card {
+    transition: transform 0.6s var(--transition-premium), 
+                box-shadow 0.6s var(--transition-premium), 
+                border-color 0.6s var(--transition-premium);
+}
+.product-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(197, 168, 128, 0.4);
+}
+
+/* Fallback visibility in case GSAP fails to load */
+.featured-card, .why-item, .about-intro, .about-media, .timeline-item, .team-card, .contact-details, .contact-form-wrapper {
+    will-change: transform, opacity;
+}
+
+/* Responsive category dropdown fixes */
+.scrollbar-thin::-webkit-scrollbar {
+    height: 3px;
+}
+
+/* Image Hover Zoom Coordinates */
+#zoom-container img {
+    transition: transform 0.1s ease-out;
+}
+
+/* Flash message slide-in style */
+.flash-message {
+    transition: transform 0.5s var(--transition-premium), opacity 0.5s ease;
+}
+.flash-message.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* Masonry layout column breaks */
+.break-inside-avoid {
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+}
+
+/* Mobile full-screen nav overlay transitions */
+#mobile-overlay.active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+.mobile-nav-link {
+    transition: color 0.3s var(--transition-premium);
+}

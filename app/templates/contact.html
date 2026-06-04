@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Concierge | {{ brand_name }} Systems{% endblock %}
+
+{% block meta_description %}Contact the AETHER concierge service. Schedule private listening sessions, submit bespoke requests, or send us a message directly.{% endblock %}
+
+{% block content %}
+<!-- Page Intro Header -->
+<section class="pt-32 pb-12 bg-neutral-50 dark:bg-neutral-900/20 border-b border-neutral-100 dark:border-neutral-900/50 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <nav class="text-xs uppercase tracking-widest text-neutral-400 mb-4 flex gap-2">
+            <a href="{{ url_for('main.index') }}" class="hover:text-brand-gold transition-colors">Home</a>
+            <span>/</span>
+            <span class="text-brand-gold">Contact</span>
+        </nav>
+        <h1 class="text-3xl md:text-5xl font-light tracking-tight text-neutral-900 dark:text-neutral-50">
+            Concierge <span class="font-serif italic font-normal text-brand-gold">Concierge</span>
+        </h1>
+        <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-2 max-w-xl font-light leading-relaxed">
+            Reach out to our design concierge team to schedule private gallery viewings or to coordinate bespoke audio setups.
+        </p>
+    </div>
+</section>
+
+<!-- Main Form & Map Segment -->
+<section class="py-24 bg-brand-light dark:bg-brand-dark transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+            
+            <!-- Left Column: Details & Map -->
+            <div class="lg:col-span-5 flex flex-col gap-10 contact-details opacity-0 -translate-x-6">
+                <!-- Info Blocks -->
+                <div class="flex flex-col gap-6">
+                    <div class="flex gap-4 items-start">
+                        <span class="w-10 h-10 shrink-0 rounded-xl bg-brand-gold/10 text-brand-gold flex items-center justify-center text-sm border border-brand-gold/20"><i class="fa-solid fa-location-dot"></i></span>
+                        <div class="flex flex-col">
+                            <span class="text-[10px] uppercase font-bold tracking-wider text-neutral-400">Headquarters</span>
+                            <span class="text-sm font-medium mt-0.5 text-neutral-800 dark:text-neutral-200 leading-relaxed">{{ contact_address }}</span>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4 items-start">
+                        <span class="w-10 h-10 shrink-0 rounded-xl bg-brand-gold/10 text-brand-gold flex items-center justify-center text-sm border border-brand-gold/20"><i class="fa-solid fa-phone"></i></span>
+                        <div class="flex flex-col">
+                            <span class="text-[10px] uppercase font-bold tracking-wider text-neutral-400">Phone Concierge</span>
+                            <a href="tel:{{ contact_phone }}" class="text-sm font-medium mt-0.5 text-neutral-800 dark:text-neutral-200 hover:text-brand-gold transition-colors">{{ contact_phone }}</a>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4 items-start">
+                        <span class="w-10 h-10 shrink-0 rounded-xl bg-brand-gold/10 text-brand-gold flex items-center justify-center text-sm border border-brand-gold/20"><i class="fa-solid fa-envelope"></i></span>
+                        <div class="flex flex-col">
+                            <span class="text-[10px] uppercase font-bold tracking-wider text-neutral-400">Email Correspondence</span>
+                            <a href="mailto:{{ contact_email }}" class="text-sm font-medium mt-0.5 text-neutral-800 dark:text-neutral-200 hover:text-brand-gold transition-colors">{{ contact_email }}</a>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4 items-start">
+                        <span class="w-10 h-10 shrink-0 rounded-xl bg-brand-gold/10 text-brand-gold flex items-center justify-center text-sm border border-brand-gold/20"><i class="fa-solid fa-clock"></i></span>
+                        <div class="flex flex-col">
+                            <span class="text-[10px] uppercase font-bold tracking-wider text-neutral-400">Working Hours</span>
+                            <span class="text-sm font-medium mt-0.5 text-neutral-800 dark:text-neutral-200 leading-relaxed">{{ contact_hours }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Google Maps Frame -->
+                <div class="w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-md border border-neutral-100 dark:border-neutral-800/80">
+                    <iframe src="{{ maps_embed_url }}" 
+                            class="w-full h-full border-0 grayscale dark:invert" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade" 
+                            title="AETHER Location Map">
+                    </iframe>
+                </div>
+            </div>
+
+            <!-- Right Column: Submission Form -->
+            <div class="lg:col-span-7 bg-white dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800/80 rounded-3xl p-8 md:p-10 shadow-sm contact-form-wrapper opacity-0 translate-x-6">
+                <span class="text-xs uppercase tracking-widest text-brand-gold font-bold">Write to us</span>
+                <h2 class="text-2xl font-light tracking-tight text-neutral-900 dark:text-neutral-50 mt-1 mb-8">
+                    Submit a <span class="font-serif italic font-normal text-brand-gold">Bespoke Inquiry</span>
+                </h2>
+
+                <form action="{{ url_for('main.contact') }}" method="POST" class="flex flex-col gap-6" id="direct-contact-form">
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase tracking-wider text-neutral-450 dark:text-neutral-455 mb-1.5" for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" required 
+                                   class="w-full bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-gold transition-colors duration-300">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase tracking-wider text-neutral-450 dark:text-neutral-455 mb-1.5" for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required 
+                                   class="w-full bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-gold transition-colors duration-300">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-neutral-450 dark:text-neutral-455 mb-1.5" for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required 
+                               class="w-full bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-gold transition-colors duration-300">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-neutral-450 dark:text-neutral-455 mb-1.5" for="subject">Subject *</label>
+                        <input type="text" id="subject" name="subject" required 
+                               placeholder="Bespoke orders, listening session details..." 
+                               class="w-full bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-gold transition-colors duration-300">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-neutral-450 dark:text-neutral-455 mb-1.5" for="message">Your Message *</label>
+                        <textarea id="message" name="message" rows="5" required 
+                                  placeholder="Describe the nature of your acoustic project or inquiry..." 
+                                  class="w-full bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-gold transition-colors duration-300"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 bg-neutral-900 dark:bg-neutral-800 hover:bg-brand-gold dark:hover:bg-brand-gold text-white font-bold text-xs uppercase tracking-widest rounded-full shadow-lg hover:scale-[1.01] transform transition-all duration-300">
+                        Submit Direct Inquiry
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+{% endblock %}

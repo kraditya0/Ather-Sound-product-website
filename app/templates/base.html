@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Dynamic Title & SEO Meta Tags -->
+    <title>{% block title %}{{ brand_name }} | {{ brand_tagline }}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Experience premium acoustics with {{ brand_name }}. Explore our hand-crafted, high-fidelity headphones, earbuds, and spatial home sound systems.{% endblock %}">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:title" content="{% block og_title %}{{ brand_name }} | {{ brand_tagline }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Discover AETHER's collection of high-fidelity, designer audio systems.{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{{ url_for('static', filename='images/logo.svg', _external=True) }}{% endblock %}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ request.url }}">
+    <meta property="twitter:title" content="{% block twitter_title %}{{ brand_name }} | {{ brand_tagline }}{% endblock %}">
+    <meta property="twitter:description" content="{% block twitter_description %}Discover AETHER's collection of high-fidelity, designer audio systems.{% endblock %}">
+    <meta property="twitter:image" content="{% block twitter_image %}{{ url_for('static', filename='images/logo.svg', _external=True) }}{% endblock %}">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS v3 Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            light: '#FAF9F6',
+                            dark: '#080809',
+                            muted: '#121214',
+                            gold: '#C5A880',
+                            bronze: '#8C7255',
+                            border: {
+                                light: 'rgba(0, 0, 0, 0.08)',
+                                dark: 'rgba(255, 255, 255, 0.08)'
+                            }
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <!-- Inline Theme Detection to prevent FOUC (Flash of Unstyled Content) -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
+
+    <!-- Schema.org JSON-LD Structured Data -->
+    {% block structured_data %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "{{ brand_name }}",
+      "url": "{{ url_for('main.index', _external=True) }}",
+      "logo": "{{ url_for('static', filename='images/logo.svg', _external=True) }}",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "{{ contact_phone }}",
+        "contactType": "customer service",
+        "email": "{{ contact_email }}"
+      },
+      "sameAs": [
+        "{{ social_links.instagram }}",
+        "{{ social_links.facebook }}",
+        "{{ social_links.youtube }}",
+        "{{ social_links.linkedin }}",
+        "{{ social_links.twitter }}"
+      ]
+    }
+    </script>
+    {% endblock %}
+</head>
+<body class="bg-brand-light text-neutral-800 dark:bg-brand-dark dark:text-neutral-200 font-sans antialiased overflow-x-hidden transition-colors duration-300">
+    <!-- Custom Cursor for desktop -->
+    <div id="custom-cursor" class="hidden md:block fixed w-8 h-8 rounded-full border border-brand-gold/60 pointer-events-none z-50 transform -translate-x-1/2 -translate-y-1/2 transition-transform duration-75 ease-out scale-75"></div>
+    <div id="custom-cursor-dot" class="hidden md:block fixed w-1.5 h-1.5 rounded-full bg-brand-gold pointer-events-none z-50 transform -translate-x-1/2 -translate-y-1/2 transition-transform duration-75 ease-out"></div>
+
+    <!-- Header Navigation -->
+    {% include 'components/_header.html' %}
+
+    <!-- Flash Messages Container -->
+    <div class="fixed top-24 right-6 z-50 flex flex-col gap-3 max-w-sm w-full">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message p-4 rounded-xl border backdrop-blur-md flex items-start gap-3 shadow-xl transition-all duration-500 translate-x-12 opacity-0
+                        {% if category == 'success' %}
+                            bg-emerald-500/10 border-emerald-500/30 text-emerald-800 dark:text-emerald-300
+                        {% else %}
+                            bg-rose-500/10 border-rose-500/30 text-rose-800 dark:text-rose-300
+                        {% endif %}">
+                        <span class="mt-0.5">
+                            {% if category == 'success' %}
+                                <i class="fa-solid fa-circle-check"></i>
+                            {% else %}
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                            {%   endif %}
+                        </span>
+                        <div class="flex-1 text-sm font-medium">{{ message }}</div>
+                        <button class="flash-close-btn text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 transition-colors">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Main Content -->
+    <main class="min-h-screen">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    {% include 'components/_footer.html' %}
+
+    <!-- Floating WhatsApp Integration -->
+    {% include 'components/_whatsapp_btn.html' %}
+
+    <!-- Shared Scripts -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

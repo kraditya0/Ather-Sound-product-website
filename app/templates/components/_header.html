@@ -1,0 +1,95 @@
+<header id="main-header" class="fixed top-0 left-0 w-full z-40 transition-all duration-300 border-b border-transparent">
+    <div class="max-w-7xl mx-auto px-6 md:px-12 py-5 flex items-center justify-between">
+        
+        <!-- Brand Logo (AETHER) -->
+        <a href="{{ url_for('main.index') }}" class="flex items-center gap-2 group">
+            <!-- Stylized Minimalist SVG Logo -->
+            <svg class="w-8 h-8 text-neutral-800 dark:text-neutral-100 group-hover:text-brand-gold transition-colors duration-300" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="2.5" class="opacity-30 group-hover:opacity-60 transition-opacity duration-300"/>
+                <path d="M50 20 L75 70 L25 70 Z" stroke="currentColor" stroke-width="3" stroke-linejoin="round" class="group-hover:stroke-brand-gold transition-all duration-300"/>
+                <circle cx="50" cy="53" r="8" fill="currentColor"/>
+            </svg>
+            <span class="text-xl font-bold tracking-[0.25em] text-neutral-900 dark:text-neutral-50 group-hover:text-brand-gold transition-colors duration-300 uppercase font-sans">
+                {{ brand_name }}
+            </span>
+        </a>
+
+        <!-- Desktop Navigation Items -->
+        <nav class="hidden md:flex items-center gap-8 lg:gap-10">
+            <a href="{{ url_for('main.index') }}" class="text-sm font-medium tracking-wider uppercase hover:text-brand-gold transition-colors duration-300 {% if request.path == '/' %}text-brand-gold{% endif %}">Home</a>
+            
+            <!-- Category Dropdown Trigger -->
+            <div class="relative group/dropdown">
+                <button class="flex items-center gap-1.5 text-sm font-medium tracking-wider uppercase hover:text-brand-gold transition-colors duration-300 py-2">
+                    Collection <i class="fa-solid fa-chevron-down text-[10px] opacity-70 group-hover/dropdown:rotate-180 transition-transform duration-300"></i>
+                </button>
+                <div class="absolute top-full left-1/2 -translate-x-1/2 w-52 bg-white/95 dark:bg-neutral-900/95 border border-neutral-100 dark:border-neutral-800/80 backdrop-blur-lg rounded-xl shadow-xl py-3 px-2 flex flex-col gap-1 opacity-0 translate-y-2 pointer-events-none group-hover/dropdown:opacity-100 group-hover/dropdown:translate-y-0 group-hover/dropdown:pointer-events-auto transition-all duration-300">
+                    <a href="{{ url_for('products.index') }}" class="px-4 py-2 text-xs font-medium uppercase tracking-wider text-neutral-500 dark:text-neutral-400 hover:text-brand-gold dark:hover:text-brand-gold border-b border-neutral-100 dark:border-neutral-800/50 pb-2 mb-1">Browse All</a>
+                    <a href="{{ url_for('products.index', category='headphones') }}" class="px-4 py-2 text-sm font-medium rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-800/50 hover:text-brand-gold transition-colors">Headphones</a>
+                    <a href="{{ url_for('products.index', category='earbuds') }}" class="px-4 py-2 text-sm font-medium rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-800/50 hover:text-brand-gold transition-colors">Earbuds</a>
+                    <a href="{{ url_for('products.index', category='home-sound') }}" class="px-4 py-2 text-sm font-medium rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-800/50 hover:text-brand-gold transition-colors">Home Sound</a>
+                </div>
+            </div>
+            
+            <a href="{{ url_for('main.gallery') }}" class="text-sm font-medium tracking-wider uppercase hover:text-brand-gold transition-colors duration-300 {% if request.path == '/gallery' %}text-brand-gold{% endif %}">Gallery</a>
+            <a href="{{ url_for('main.about') }}" class="text-sm font-medium tracking-wider uppercase hover:text-brand-gold transition-colors duration-300 {% if request.path == '/about' %}text-brand-gold{% endif %}">Our Story</a>
+            <a href="{{ url_for('main.contact') }}" class="text-sm font-medium tracking-wider uppercase hover:text-brand-gold transition-colors duration-300 {% if request.path == '/contact' %}text-brand-gold{% endif %}">Contact</a>
+        </nav>
+
+        <!-- Right Side: Dark Mode, Search trigger, CTA -->
+        <div class="flex items-center gap-4">
+            <!-- Theme Toggle Switch -->
+            <button id="theme-toggle" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-neutral-500/10 transition-colors duration-300 text-neutral-800 dark:text-neutral-100 focus:outline-none" aria-label="Toggle Theme">
+                <i class="fa-solid fa-moon text-lg dark:hidden"></i>
+                <i class="fa-solid fa-sun text-lg hidden dark:block text-brand-gold"></i>
+            </button>
+            
+            <!-- Quick Contact CTA -->
+            <a href="{{ url_for('main.contact') }}" class="hidden lg:inline-block px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider border border-neutral-800 dark:border-neutral-200 hover:bg-neutral-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300">
+                Inquire
+            </a>
+
+            <!-- Mobile Hamburger Menu Button -->
+            <button id="menu-btn" class="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 focus:outline-none group z-50" aria-label="Toggle Mobile Menu">
+                <span class="w-6 h-0.5 bg-neutral-800 dark:bg-neutral-100 group-hover:bg-brand-gold transition-all duration-300 origin-center" id="menu-bar-1"></span>
+                <span class="w-6 h-0.5 bg-neutral-800 dark:bg-neutral-100 group-hover:bg-brand-gold transition-all duration-300 origin-center" id="menu-bar-2"></span>
+                <span class="w-6 h-0.5 bg-neutral-800 dark:bg-neutral-100 group-hover:bg-brand-gold transition-all duration-300 origin-center" id="menu-bar-3"></span>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Mobile Fullscreen Overlay Navigation -->
+    <div id="mobile-overlay" class="fixed inset-0 bg-brand-light/98 dark:bg-brand-dark/98 backdrop-blur-xl z-35 flex flex-col justify-between p-8 pt-28 transition-all duration-500 translate-y-[-100%] opacity-0 pointer-events-none">
+        
+        <!-- Mobile Navigation Menu -->
+        <nav class="flex flex-col gap-6 text-center">
+            <a href="{{ url_for('main.index') }}" class="mobile-nav-link text-2xl font-semibold tracking-widest uppercase hover:text-brand-gold transition-colors">Home</a>
+            
+            <div class="border-t border-neutral-200 dark:border-neutral-800/80 my-2"></div>
+            
+            <span class="text-xs uppercase tracking-widest text-neutral-400 font-semibold mb-1">Collections</span>
+            <a href="{{ url_for('products.index') }}" class="mobile-nav-link text-lg font-medium hover:text-brand-gold transition-colors">All Audio</a>
+            <a href="{{ url_for('products.index', category='headphones') }}" class="mobile-nav-link text-lg font-medium hover:text-brand-gold transition-colors">Headphones</a>
+            <a href="{{ url_for('products.index', category='earbuds') }}" class="mobile-nav-link text-lg font-medium hover:text-brand-gold transition-colors">Earbuds</a>
+            <a href="{{ url_for('products.index', category='home-sound') }}" class="mobile-nav-link text-lg font-medium hover:text-brand-gold transition-colors">Home Sound</a>
+            
+            <div class="border-t border-neutral-200 dark:border-neutral-800/80 my-2"></div>
+            
+            <a href="{{ url_for('main.gallery') }}" class="mobile-nav-link text-2xl font-semibold tracking-widest uppercase hover:text-brand-gold transition-colors">Gallery</a>
+            <a href="{{ url_for('main.about') }}" class="mobile-nav-link text-2xl font-semibold tracking-widest uppercase hover:text-brand-gold transition-colors">Our Story</a>
+            <a href="{{ url_for('main.contact') }}" class="mobile-nav-link text-2xl font-semibold tracking-widest uppercase hover:text-brand-gold transition-colors">Contact</a>
+        </nav>
+
+        <!-- Social Connections on Mobile Menu Footer -->
+        <div class="flex flex-col items-center gap-4 text-center pb-6">
+            <div class="flex gap-6 text-xl">
+                <a href="{{ social_links.instagram }}" target="_blank" rel="noopener noreferrer" class="hover:text-brand-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="{{ social_links.facebook }}" target="_blank" rel="noopener noreferrer" class="hover:text-brand-gold transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="{{ social_links.youtube }}" target="_blank" rel="noopener noreferrer" class="hover:text-brand-gold transition-colors"><i class="fa-brands fa-youtube"></i></a>
+                <a href="{{ social_links.linkedin }}" target="_blank" rel="noopener noreferrer" class="hover:text-brand-gold transition-colors"><i class="fa-brands fa-linkedin-in"></i></a>
+            </div>
+            <p class="text-xs text-neutral-400 dark:text-neutral-500 uppercase tracking-widest">© {{ brand_name }} Luxury acoustics</p>
+        </div>
+    </div>
+</header>

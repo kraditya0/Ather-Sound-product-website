@@ -1,0 +1,351 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ brand_name }} | {{ brand_tagline }}{% endblock %}
+
+{% block content %}
+<!-- 1. Hero Section -->
+<section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden bg-black text-white">
+    <!-- Background Video / Canvas Fallback -->
+    <div class="absolute inset-0 z-0">
+        <!-- Overlay to ensure readability -->
+        <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-neutral-950 z-10"></div>
+        
+        <!-- Video Element -->
+        <video id="hero-video" class="w-full h-full object-cover opacity-60 hidden" autoplay loop muted playsinline>
+            <source src="{{ url_for('static', filename='videos/hero-loop.mp4') }}" type="video/mp4">
+            <!-- Public CDNs of high quality abstract dark loops can serve as real fallback -->
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-dark-fluid-shapes-40330-large.mp4" type="video/mp4">
+        </video>
+        
+        <!-- Canvas Fallback: Animated Luxury Mesh Gradient -->
+        <canvas id="hero-canvas" class="w-full h-full object-cover opacity-50"></canvas>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="relative z-20 max-w-5xl mx-auto px-6 text-center flex flex-col items-center gap-6 mt-16">
+        <span class="hero-sub font-semibold tracking-[0.4em] text-brand-gold text-xs uppercase animate-pulse-slow">
+            Now Experiencing High-Fidelity
+        </span>
+        
+        <h1 class="hero-title text-4xl sm:text-6xl lg:text-7xl font-light tracking-tight leading-tight max-w-4xl text-neutral-50">
+            Acoustic sculptures designed for <span class="font-serif italic font-normal text-brand-gold">modern spaces</span>
+        </h1>
+        
+        <p class="hero-desc text-sm sm:text-base text-neutral-300 max-w-xl font-light leading-relaxed">
+            Where raw architectural materials meet uncompromised studio-grade audio engineering. Precision sound, carved in stone.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="hero-ctas flex flex-col sm:flex-row items-center gap-4 mt-4 w-full sm:w-auto">
+            <a href="{{ url_for('products.index') }}" class="w-full sm:w-auto px-8 py-4 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-black hover:bg-brand-gold hover:text-white transition-all duration-300 shadow-xl hover:scale-105 transform">
+                Explore Collection
+            </a>
+            
+            {% set clean_whatsapp = whatsapp_number | replace('+', '') | replace(' ', '') | replace('-', '') | replace('(', '') | replace(')', '') %}
+            {% set hero_msg = "Hello, I would like to schedule a private concierge consultation regarding Aether products." | urlencode %}
+            <a href="https://wa.me/{{ clean_whatsapp }}?text={{ hero_msg }}" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-8 py-4 rounded-full text-xs font-bold uppercase tracking-wider border border-white/20 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 hover:border-white transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105 transform">
+                <i class="fa-brands fa-whatsapp text-lg text-emerald-400"></i> WhatsApp Concierge
+            </a>
+        </div>
+    </div>
+
+    <!-- Scroll Down Indicator -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 text-neutral-400 pointer-events-none hero-scroll">
+        <span class="text-[9px] uppercase tracking-[0.25em] font-semibold">Scroll down</span>
+        <div class="w-6 h-10 border border-neutral-700 rounded-full flex justify-center p-1.5">
+            <div class="w-1.5 h-1.5 bg-brand-gold rounded-full animate-bounce"></div>
+        </div>
+    </div>
+</section>
+
+<!-- 2. Featured Products Preview Section -->
+<section class="py-24 bg-brand-light dark:bg-brand-dark transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+        
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 featured-header">
+            <div class="flex flex-col gap-2">
+                <span class="text-xs uppercase tracking-widest text-brand-gold font-bold">Curated Auditory Art</span>
+                <h2 class="text-3xl md:text-4xl font-light tracking-tight text-neutral-900 dark:text-neutral-50">
+                    The <span class="font-serif italic font-normal">AETHER Signature</span> Series
+                </h2>
+            </div>
+            <a href="{{ url_for('products.index') }}" class="text-xs font-semibold uppercase tracking-wider text-neutral-800 dark:text-neutral-200 hover:text-brand-gold dark:hover:text-brand-gold border-b border-neutral-800 dark:border-neutral-200 pb-1.5 self-start md:self-auto transition-all">
+                View Entire Catalog <i class="fa-solid fa-arrow-right ml-1"></i>
+            </a>
+        </div>
+
+        <!-- Product Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for product in featured_products %}
+                <div class="featured-card opacity-0 translate-y-8">
+                    {% include 'components/_product_card.html' %}
+                </div>
+            {% else %}
+                <div class="col-span-full text-center py-12 text-neutral-400">
+                    No featured products available at this time.
+                </div>
+            {% endfor %}
+        </div>
+        
+    </div>
+</section>
+
+<!-- 3. Why Choose Us Section -->
+<section class="py-24 bg-neutral-50 dark:bg-neutral-900/40 border-t border-b border-neutral-100 dark:border-neutral-900 transition-colors duration-300 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+        
+        <div class="text-center max-w-2xl mx-auto mb-20 why-header">
+            <span class="text-xs uppercase tracking-widest text-brand-gold font-bold">Absolute Integrity</span>
+            <h2 class="text-3xl md:text-4xl font-light tracking-tight text-neutral-900 dark:text-neutral-50 mt-2">
+                Acoustic engineering meets <span class="font-serif italic font-normal">sculptural design</span>
+            </h2>
+            <div class="w-16 h-0.5 bg-brand-gold mx-auto mt-6"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+            <!-- Strength 1 -->
+            <div class="why-item flex flex-col items-center gap-4 p-4 opacity-0 translate-y-8">
+                <div class="w-16 h-16 rounded-2xl bg-brand-gold/10 text-brand-gold flex items-center justify-center text-2xl shadow-inner mb-2 border border-brand-gold/20">
+                    <i class="fa-solid fa-gem"></i>
+                </div>
+                <h3 class="text-lg font-semibold tracking-tight text-neutral-900 dark:text-neutral-100">Architectural Materials</h3>
+                <p class="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed font-light max-w-sm">
+                    We sculpt our speaker bodies from solid Italian Travertine stone, hand-polished ceramics, and sandblasted aerospace alloys. Zero resonance, infinite presence.
+                </p>
+            </div>
+            
+            <!-- Strength 2 -->
+            <div class="why-item flex flex-col items-center gap-4 p-4 opacity-0 translate-y-8">
+                <div class="w-16 h-16 rounded-2xl bg-brand-gold/10 text-brand-gold flex items-center justify-center text-2xl shadow-inner mb-2 border border-brand-gold/20">
+                    <i class="fa-solid fa-gauge-high"></i>
+                </div>
+                <h3 class="text-lg font-semibold tracking-tight text-neutral-900 dark:text-neutral-100">Custom Beryllium Transducers</h3>
+                <p class="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed font-light max-w-sm">
+                    Leveraging rare Beryllium-dome diaphragms to capture hyper-realistic micro-detail and distortion-free transient speeds that other speaker cones miss.
+                </p>
+            </div>
+
+            <!-- Strength 3 -->
+            <div class="why-item flex flex-col items-center gap-4 p-4 opacity-0 translate-y-8">
+                <div class="w-16 h-16 rounded-2xl bg-brand-gold/10 text-brand-gold flex items-center justify-center text-2xl shadow-inner mb-2 border border-brand-gold/20">
+                    <i class="fa-solid fa-sliders"></i>
+                </div>
+                <h3 class="text-lg font-semibold tracking-tight text-neutral-900 dark:text-neutral-100">Active Spatial Calibration</h3>
+                <p class="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed font-light max-w-sm">
+                    Advanced room-sensing algorithms adjust output curves to compensate for your walls, upholstery, and layouts, creating a holographic sound field.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- 4. Testimonials Section -->
+<section class="py-24 bg-brand-light dark:bg-brand-dark transition-colors duration-300 overflow-hidden relative">
+    <div class="max-w-4xl mx-auto px-6 text-center relative z-10 testimonial-container">
+        <span class="text-xs uppercase tracking-widest text-brand-gold font-bold">The Verdict</span>
+        <h2 class="text-2xl md:text-3xl font-light tracking-tight text-neutral-900 dark:text-neutral-50 mt-2 mb-12">
+            Praised by <span class="font-serif italic font-normal">critics and collectors</span>
+        </h2>
+        
+        <!-- Slider Container -->
+        <div class="relative min-h-[220px]">
+            <!-- Testimonial 1 -->
+            <div class="testimonial-slide absolute inset-0 flex flex-col items-center gap-6 transition-all duration-500" data-active="true">
+                <p class="text-lg md:text-xl font-light italic leading-relaxed text-neutral-700 dark:text-neutral-300">
+                    "AETHER's Monolith speaker completely redefined what I expect from home audio. It's not just a speaker; it's a stunning piece of mid-century sculpture that yields holographic soundscapes. Utterly mind-blowing."
+                </p>
+                <div class="flex flex-col items-center">
+                    <span class="font-semibold text-neutral-950 dark:text-white">Jean-Louis Moreau</span>
+                    <span class="text-xs text-neutral-400 uppercase tracking-widest mt-0.5">Architectural Digest</span>
+                </div>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div class="testimonial-slide absolute inset-0 flex flex-col items-center gap-6 opacity-0 pointer-events-none transition-all duration-500" data-active="false">
+                <p class="text-lg md:text-xl font-light italic leading-relaxed text-neutral-700 dark:text-neutral-300">
+                    "The Aeon headphones are an engineering masterpiece. The Beryllium drivers offer lightning-fast responsiveness. They capture the raw breath of the vocalist and the exact pluck of a guitar string. Truly exceptional."
+                </p>
+                <div class="flex flex-col items-center">
+                    <span class="font-semibold text-neutral-950 dark:text-white">Sarah Jenkins</span>
+                    <span class="text-xs text-neutral-400 uppercase tracking-widest mt-0.5">Audio & Acoustics Critic</span>
+                </div>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div class="testimonial-slide absolute inset-0 flex flex-col items-center gap-6 opacity-0 pointer-events-none transition-all duration-500" data-active="false">
+                <p class="text-lg md:text-xl font-light italic leading-relaxed text-neutral-700 dark:text-neutral-300">
+                    "Beautiful, heavy, luxurious. The tactile pleasure of the brass charging case combined with the ceramic Horizon earbuds matches their crystalline treble and deep sub-bass performance."
+                </p>
+                <div class="flex flex-col items-center">
+                    <span class="font-semibold text-neutral-950 dark:text-white">Marcus Vance</span>
+                    <span class="text-xs text-neutral-400 uppercase tracking-widest mt-0.5">T3 Magazine</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slider Controls -->
+        <div class="flex justify-center items-center gap-6 mt-12">
+            <button id="prev-testimonial" class="w-10 h-10 rounded-full border border-neutral-200 dark:border-neutral-800 flex items-center justify-center text-neutral-600 dark:text-neutral-400 hover:text-brand-gold hover:border-brand-gold transition-colors duration-300" aria-label="Previous Testimonial">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            
+            <!-- Indicators -->
+            <div class="flex gap-2" id="testimonial-indicators">
+                <span class="w-1.5 h-1.5 rounded-full bg-brand-gold transition-all duration-300" data-index="0"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-neutral-300 dark:bg-neutral-800 transition-all duration-300" data-index="1"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-neutral-300 dark:bg-neutral-800 transition-all duration-300" data-index="2"></span>
+            </div>
+
+            <button id="next-testimonial" class="w-10 h-10 rounded-full border border-neutral-200 dark:border-neutral-800 flex items-center justify-center text-neutral-600 dark:text-neutral-400 hover:text-brand-gold hover:border-brand-gold transition-colors duration-300" aria-label="Next Testimonial">
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+
+    </div>
+</section>
+
+<!-- 5. Gallery Preview Section -->
+<section class="py-24 bg-neutral-900 text-white transition-colors duration-300 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center mb-16 gallery-preview-header">
+            <div class="lg:col-span-2 flex flex-col gap-3">
+                <span class="text-xs uppercase tracking-widest text-brand-gold font-bold">Visual Splendor</span>
+                <h2 class="text-3xl md:text-4xl font-light tracking-tight text-neutral-50">
+                    Carved for the eye, <span class="font-serif italic font-normal text-brand-gold">tuned for the ear</span>
+                </h2>
+            </div>
+            <div class="flex lg:justify-end">
+                <a href="{{ url_for('main.gallery') }}" class="px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-wider border border-white/20 hover:border-brand-gold hover:bg-brand-gold/10 hover:text-brand-gold transition-all duration-300">
+                    Enter Media Gallery
+                </a>
+            </div>
+        </div>
+
+        <!-- Custom Grid of Images -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6" id="gallery-preview-grid">
+            
+            <div class="relative overflow-hidden aspect-[3/4] rounded-2xl group border border-white/5">
+                <img src="/static/images/products/aeon-lifestyle.webp" alt="Aeon lifestyle design" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" loading="lazy">
+                <div class="absolute inset-0 bg-neutral-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                    <span class="text-xs font-medium uppercase tracking-widest text-neutral-300">Aeon Studio Study</span>
+                </div>
+            </div>
+
+            <div class="relative overflow-hidden aspect-[3/4] rounded-2xl group border border-white/5 md:translate-y-8">
+                <img src="/static/images/products/horizon-lifestyle.webp" alt="Horizon earbuds detail" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" loading="lazy">
+                <div class="absolute inset-0 bg-neutral-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                    <span class="text-xs font-medium uppercase tracking-widest text-neutral-300">Horizon Ceramic Polish</span>
+                </div>
+            </div>
+
+            <div class="relative overflow-hidden aspect-[3/4] rounded-2xl group border border-white/5">
+                <img src="/static/images/products/monolith-lifestyle.webp" alt="Monolith Stone soundbar" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" loading="lazy">
+                <div class="absolute inset-0 bg-neutral-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                    <span class="text-xs font-medium uppercase tracking-widest text-neutral-300">Monolith Travertine Finish</span>
+                </div>
+            </div>
+
+            <div class="relative overflow-hidden aspect-[3/4] rounded-2xl group border border-white/5 md:translate-y-8">
+                <img src="/static/images/products/orbit-lifestyle.webp" alt="Orbit portable speaker" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" loading="lazy">
+                <div class="absolute inset-0 bg-neutral-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                    <span class="text-xs font-medium uppercase tracking-widest text-neutral-300">Orbit Portability</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Mesh Gradient Canvas Animation (Fallback for Hero Video)
+    const canvas = document.getElementById("hero-canvas");
+    const ctx = canvas?.getContext("2d");
+    let animationId;
+    
+    if (canvas && ctx) {
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        
+        window.addEventListener("resize", () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+        
+        const colors = [
+            { r: 8, g: 8, b: 9 },      // Dark Background
+            { r: 24, g: 20, b: 26 },   // Subtle Plum
+            { r: 35, g: 30, b: 24 },   // Warm Earth
+            { r: 28, g: 28, b: 32 }    // Muted Slate
+        ];
+        
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.4;
+                this.vy = (Math.random() - 0.5) * 0.4;
+                this.radius = Math.random() * 300 + 200;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                if (this.x < -this.radius) this.x = width + this.radius;
+                if (this.x > width + this.radius) this.x = -this.radius;
+                if (this.y < -this.radius) this.y = height + this.radius;
+                if (this.y > height + this.radius) this.y = -this.radius;
+            }
+            
+            draw() {
+                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
+                gradient.addColorStop(0, `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, 0.25)`);
+                gradient.addColorStop(1, "rgba(8, 8, 9, 0)");
+                
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        const particles = Array.from({ length: 8 }, () => new Particle());
+        
+        function animate() {
+            ctx.fillStyle = "#080809";
+            ctx.fillRect(0, 0, width, height);
+            
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            
+            animationId = requestAnimationFrame(animate);
+        }
+        animate();
+    }
+    
+    // Auto-detect and play background video if possible
+    document.addEventListener("DOMContentLoaded", () => {
+        const video = document.getElementById("hero-video");
+        if (video) {
+            video.play().then(() => {
+                // Video is playing, make it visible, stop canvas animation
+                video.classList.remove("hidden");
+                if (animationId) cancelAnimationFrame(animationId);
+                const c = document.getElementById("hero-canvas");
+                if (c) c.classList.add("hidden");
+            }).catch(e => {
+                console.log("Autoplay blocked or video missing, continuing with canvas fallback.", e);
+            });
+        }
+    });
+</script>
+{% endblock %}
