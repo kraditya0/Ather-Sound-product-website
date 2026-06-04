@@ -90,10 +90,10 @@ Fill in the custom fields in `.env`:
 FLASK_CONFIG=development
 SECRET_KEY=your-custom-secure-key
 PORT=5000
-WHATSAPP_NUMBER=+918766382326
-CONTACT_PHONE=+918766382326
-CONTACT_EMAIL=adityaiitm27@gmail.com
-CONTACT_ADDRESS=sector 63 Noida, Electronic city, UP 201301
+WHATSAPP_NUMBER=+91XXXXXXXXXX
+CONTACT_PHONE=+91XXXXXXXXXX
+CONTACT_EMAIL=your_email@gmail.com
+CONTACT_ADDRESS=Your Store Address, City, Country
 ```
 
 ### 5. Initialize Database and Seed Data
